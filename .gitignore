@@ -1,3 +1,5 @@
-/coLearn/target/*
-/coLearn/.classpath
-/coLearn/.project
+/colearn/target/*
+/colearn/.classpath
+/colearn/.project
+/colearn/.settings/*
+/colearn/bin/*
