@@ -10,9 +10,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user_details")
 public class UserDetailsTable {
-	private Integer userID;
+	private Long userOid;
 	
-	private String emailID;
+	private String emailId;
 	
 	private String screenName;
 	
@@ -20,9 +20,9 @@ public class UserDetailsTable {
 	
 	private String role;
 	
-	public UserDetailsTable(Integer userID, String emailID, String screenName, String sessionName, String role){
-		this.userID = userID;
-		this.emailID = emailID;
+	public UserDetailsTable(Long userOid, String emailID, String screenName, String sessionName, String role){
+		this.setUserOid(userOid);
+		this.emailId = emailID;
 		this.screenName = screenName;
 		this.sessionName = sessionName;
 		this.role = role;
@@ -30,25 +30,25 @@ public class UserDetailsTable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", unique = true, nullable = false)
-	public Integer getUserID(){
-		return userID;
+	@Column(name = "user_oid", unique = true, nullable = false)
+	public Long getUserOid() {
+		return userOid;
 	}
 
-	public void setUserID(Integer value){
-		userID = value;
+
+	public void setUserOid(Long userOid) {
+		this.userOid = userOid;
 	}
+
 	
-
 	@Column(name = "email_id", unique = true, nullable = false)
-	public String getEmailID(){
-		return emailID;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setEmailID(String value){
-		emailID = value;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
-	
 
 	@Column(name = "screen_name", unique = false, nullable = true)
 	public String getScreenName(){
