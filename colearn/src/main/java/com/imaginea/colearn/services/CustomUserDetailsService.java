@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.imaginea.colearn.model.UserDetailsTable;
 
@@ -31,6 +32,7 @@ AuthenticationUserDetailsService, UserDetailsService {
 		return null;
 	}
 
+	@Transactional
 	public UserDetails loadUserDetails(Authentication token)
 			throws UsernameNotFoundException {
 		OpenIDAuthenticationToken openidToken = (OpenIDAuthenticationToken) token;
@@ -39,7 +41,7 @@ AuthenticationUserDetailsService, UserDetailsService {
 		List<OpenIDAttribute> attributes = openidToken.getAttributes();
 		
 		UserDetailsTable userDetailsTable;
-		List<UserDetailsTable> userDetailsTables;
+		
 		
 		ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
@@ -55,13 +57,7 @@ AuthenticationUserDetailsService, UserDetailsService {
 			throw new UsernameNotFoundException("Unable to retrieve email id.");
 		}
 		
-		userDetailsTables = userService.getUserDetail("email", email);
-		
-		if (userDetailsTables.size() == 0) {
-			throw new UsernameNotFoundException("User is not registered with us.");
-		}
-		
-		userDetailsTable = userDetailsTables.get(0);
+		userDetailsTable = getUserDetailsFromEmail(email);
 		
 		userDetailsTable.setSessionName(identifier);
 		
@@ -72,6 +68,19 @@ AuthenticationUserDetailsService, UserDetailsService {
 		user = new User(identifier, "", authorities);
 		
 		return user;
+	}
+
+	public UserDetailsTable getUserDetailsFromEmail(String email) {
+		UserDetailsTable userDetailsTable;
+		List<UserDetailsTable> userDetailsTables;
+		userDetailsTables = userService.getUserDetail("emailId", email);
+		
+		if (userDetailsTables.size() == 0) {
+			throw new UsernameNotFoundException("User is not registered with us.");
+		}
+		
+		userDetailsTable = userDetailsTables.get(0);
+		return userDetailsTable;
 	}
 
 }
