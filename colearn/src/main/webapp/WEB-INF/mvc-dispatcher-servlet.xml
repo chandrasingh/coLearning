@@ -77,6 +77,10 @@
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="en" />
 	</bean>
+	<bean id="courseDetailsDAOImpl" class="com.imaginea.colearn.dao.DAOInterfaceImpl">
+		<property name="entityName" value="CourseDetails"></property>
+	</bean>
+<!-- 	<bean id="hibernateTempl" class="org.springframework.orm.hibernate3.HibernateTemplate"/> -->
 
 	<mvc:interceptors>
 		<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
