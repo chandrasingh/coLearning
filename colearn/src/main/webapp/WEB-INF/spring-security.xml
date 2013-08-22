@@ -6,9 +6,9 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 	<http auto-config="true">
-		<intercept-url pattern="/admin*" access="ROLE_ADMIN" />
-		<intercept-url pattern="/autor*" access="ROLE_AUTHOR" />
-		<intercept-url pattern="/student*" access="ROLE_STUDENT" />
+		<intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/author/*" access="ROLE_AUTHOR" />
+		<intercept-url pattern="/student/*" access="ROLE_STUDENT" />
 		<security:openid-login login-page="/login"
 			authentication-failure-url="/loginfailed" default-target-url="/index">
 			<attribute-exchange>

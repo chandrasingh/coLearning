@@ -28,7 +28,7 @@ AuthenticationUserDetailsService, UserDetailsService {
 	
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
+		// not used
 		return null;
 	}
 
@@ -54,11 +54,19 @@ AuthenticationUserDetailsService, UserDetailsService {
 		}
 		
 		if (email.equals("")) {
-			throw new UsernameNotFoundException("Unable to retrieve email id.");
+			//throw new UsernameNotFoundException("Unable to retrieve email id.");
 		}
 		
-		userDetailsTable = getUserDetailsFromEmail(email);
+		userDetailsTable = userService.getUserDetailsFromEmail(email);
 		
+		if(userDetailsTable == null){
+			authorities.add(new GrantedAuthorityImpl("ROLE_ANONYMOUS"));
+			
+			user = new User(identifier, "", authorities);
+			
+			return user;
+		}
+
 		userDetailsTable.setSessionName(identifier);
 		
 		userService.updateUserDetail(userDetailsTable);
@@ -68,19 +76,6 @@ AuthenticationUserDetailsService, UserDetailsService {
 		user = new User(identifier, "", authorities);
 		
 		return user;
-	}
-
-	public UserDetailsTable getUserDetailsFromEmail(String email) {
-		UserDetailsTable userDetailsTable;
-		List<UserDetailsTable> userDetailsTables;
-		userDetailsTables = userService.getUserDetail("emailId", email);
-		
-		if (userDetailsTables.size() == 0) {
-			throw new UsernameNotFoundException("User is not registered with us.");
-		}
-		
-		userDetailsTable = userDetailsTables.get(0);
-		return userDetailsTable;
 	}
 
 }

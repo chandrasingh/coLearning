@@ -24,6 +24,7 @@ CREATE TABLE `course_details` (
   `course_oid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `data` text,
   `title` varchar(50) NOT NULL,
+  `live` bit(1) DEFAULT b'0',
   `description` varchar(1000) DEFAULT NULL,
   `datecreated` timestamp NULL DEFAULT NULL,
   `datemodified` timestamp NULL DEFAULT NULL,
@@ -32,6 +33,23 @@ CREATE TABLE `course_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `course_details` */
+
+/*Table structure for table `user_details` */
+
+DROP TABLE IF EXISTS `user_details`;
+
+CREATE TABLE `user_details` (
+  `user_oid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `email_id` varchar(50) NOT NULL,
+  `screen_name` varchar(45) DEFAULT NULL,
+  `session_name` varchar(100) DEFAULT NULL,
+  `role` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`user_oid`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_oid`),
+  UNIQUE KEY `email_id_UNIQUE` (`email_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `user_details` */
 
 /*Table structure for table `user_course_details` */
 
@@ -53,23 +71,6 @@ CREATE TABLE `user_course_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `user_course_details` */
-
-/*Table structure for table `user_details` */
-
-DROP TABLE IF EXISTS `user_details`;
-
-CREATE TABLE `user_details` (
-  `user_oid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `email_id` varchar(50) NOT NULL,
-  `screen_name` varchar(45) DEFAULT NULL,
-  `session_name` varchar(100) DEFAULT NULL,
-  `role` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`user_oid`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_oid`),
-  UNIQUE KEY `email_id_UNIQUE` (`email_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `user_details` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

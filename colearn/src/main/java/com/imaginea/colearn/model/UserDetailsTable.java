@@ -20,14 +20,7 @@ public class UserDetailsTable {
 	
 	private String role;
 	
-	/*public UserDetailsTable(Long userOid, String emailID, String screenName, String sessionName, String role){
-		this.setUserOid(userOid);
-		this.emailId = emailID;
-		this.screenName = screenName;
-		this.sessionName = sessionName;
-		this.role = role;
-	}
-	*/
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_oid", unique = true, nullable = false)

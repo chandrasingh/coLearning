@@ -4,9 +4,11 @@
 <head>
 <title>Login Page</title>
 <%@ page isELIgnored="false"%>
-<link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
-<link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
+<link href="resources/css/bootstrap.css" rel="stylesheet">
+<link href="resources/css/bootstrap-responsive.css" rel="stylesheet">
+<script type='text/javascript'>
+	
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body onload='document.f.j_username.focus();'>
@@ -27,14 +29,7 @@
 	</form>
   </p>
 </div>
-<!-- 		<img src="resources/google-logo.png"></img> -->
-	
-<!-- 	<form action="j_spring_openid_security_check" method="post"> -->
-<!-- 		For Google users: <input name="openid_identifier" type="hidden" -->
-<!-- 			value="https://www.google.com/accounts/o8/id" /> <input type="submit" -->
-<!-- 			value="Sign with Google" /> -->
-<!-- 	</form> -->
-	<script src="http://code.jquery.com/jquery.min.js"></script>
-	<script src="http://twitter.github.io/bootstrap/assets/js/bootstrap.min.js"></script>
+	<script src="resources/js/jquery.min.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
 </body>
 </html>
