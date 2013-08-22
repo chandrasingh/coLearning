@@ -31,16 +31,8 @@
 		</div>
 	</div>
 	
-	<form method="post" action="courseRegistrationForm" name="courseRegistrationForm" >
+	<form method="post" action="courseRegistrationForm" name="courseRegistrationForm" enctype="multipart/form-data">
 		<table>
-			<tr>
-				<td>
-					<spring:message code="label.course.form.data" />
-				</td>
-				<td>
-					<input type="text" name="courseData" id="courseData" />
-				</td>				
-			</tr>
 			<tr>
 				<td>
 					<spring:message code="label.course.form.title" />
@@ -51,10 +43,26 @@
 			</tr>
 			<tr>
 				<td>
+					<spring:message code="label.course.form.data" />
+				</td>
+				<td>
+					<input type="text" name="courseData" id="courseData" />
+				</td>				
+			</tr>
+			<tr>
+				<td>
 					<spring:message code="label.course.form.description" />
 				</td>
 				<td>
 					<input type="text" name="courseDescription" id="courseDescription" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<spring:message code="label.course.form.filepath" />
+				</td>
+				<td>
+					<input type="file" name="uploaded" id="uploaded" />
 				</td>
 			</tr>
 		</table>

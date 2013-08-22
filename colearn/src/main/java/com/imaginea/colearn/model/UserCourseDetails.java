@@ -1,45 +1,53 @@
 package com.imaginea.colearn.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "user_course_details")
 public class UserCourseDetails {
 	
-	private String userCourseDetailsOid;
-	private Long courseOid;
-	private Long userOid;
+	private Long userCourseDetailsOid;
+	private CourseDetails courseDetails;
+	private UserDetailsTable userDetailsTable;
 	private String data;
-	private String bookmark;
+	private Integer bookmark;
 	private String userCourseMapcol;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_course_details_oid", unique = true, nullable = false)
-	public String getUserCourseDetailsOid() {
+	public Long getUserCourseDetailsOid() {
 		return userCourseDetailsOid;
 	}
-	public void setUserCourseDetailsOid(String userCourseDetailsOid) {
+	public void setUserCourseDetailsOid(Long userCourseDetailsOid) {
 		this.userCourseDetailsOid = userCourseDetailsOid;
 	}
 	
-	@Column(name = "course_oid", unique = false, nullable = false)	
-	public Long getCourseOid() {
-		return courseOid;
+	@ManyToOne
+	@JoinColumn(name = "course_oid", unique = false, nullable = false)
+	public CourseDetails getCourseDetails() {
+		return courseDetails;
 	}
-	public void setCourseOid(Long courseOid) {
-		this.courseOid = courseOid;
+	public void setCourseDetails(CourseDetails courseDetails) {
+		this.courseDetails = courseDetails;
 	}
 	
-	@Column(name = "user_oid", unique = false, nullable = false)	
-	public Long getUserOid() {
-		return userOid;
+	@ManyToOne
+	@JoinColumn(name = "user_oid",  unique = false, nullable = false)
+	public UserDetailsTable getUserDetailsTable() {
+		return userDetailsTable;
 	}
-	public void setUserOid(Long userOid) {
-		this.userOid = userOid;
-	}
-		
+	public void setUserDetailsTable(UserDetailsTable userDetailsTable) {
+		this.userDetailsTable = userDetailsTable;
+	}		
+	
 	@Column(name = "data", unique = false, nullable = true)	
 	public String getData() {
 		return data;
@@ -49,10 +57,10 @@ public class UserCourseDetails {
 	}
 	
 	@Column(name = "bookmark", unique = false, nullable = true)	
-	public String getBookmark() {
+	public Integer getBookmark() {
 		return bookmark;
 	}
-	public void setBookmark(String bookmark) {
+	public void setBookmark(Integer bookmark) {
 		this.bookmark = bookmark;
 	}
 	
