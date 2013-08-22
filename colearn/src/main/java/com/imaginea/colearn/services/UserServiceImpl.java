@@ -69,5 +69,4 @@ public class UserServiceImpl implements UserService {
 		return userDetailsTable;
 	}
 
-
 }

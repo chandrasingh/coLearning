@@ -33,7 +33,7 @@
 						<li><a class="brand" href="#"><spring:message
 									code="label.create.course" /></a></li>
 						<li><a class="brand" href="#"><spring:message
-									code="label.my.cources" /></a></li>
+									code="label.my.courses" /></a></li>
 					</c:when>
 
 					<c:when test="${role == 'ROLE_ADMIN'}">

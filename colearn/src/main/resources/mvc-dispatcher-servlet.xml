@@ -54,4 +54,8 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="courseDetailsDAOImpl" class="com.imaginea.colearn.dao.DAOInterfaceImpl">
+		<property name="entityName" value="CourseDetails"></property>
+	</bean>
+<!-- 	<bean id="hibernateTempl" class="org.springframework.orm.hibernate3.HibernateTemplate"/> -->
 </beans>
