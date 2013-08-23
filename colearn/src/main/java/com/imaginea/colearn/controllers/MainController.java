@@ -65,17 +65,19 @@ public class MainController {
 		}
 		return "index";
 	}
-
-	@RequestMapping(value = "/studentRegistration", method = RequestMethod.GET)
-	public String userRegisterForm(HttpServletRequest request, ModelMap model) {
-		HttpSession session = request.getSession(false);
+	
+	@RequestMapping(value = "/student/index", method = RequestMethod.GET)
+	public String stdIindex(ModelMap model, Principal principal) {
+		System.out.println("index");
+		UserDetailsTable userDetailsTables;
 		
-		UserDetailsTable user = (UserDetailsTable)session.getAttribute("user");
-
-		model.addAttribute("email", user.getEmailId());
-		model.addAttribute("sessionName", user.getSessionName());
-		model.addAttribute("role", "ROLE_STUDENT");
-		return "userRegistration";
+		userDetailsTables = userService.getUserDetail(principal);
+		
+		if(userDetailsTables != null){
+			model.addAttribute("screenName", userDetailsTables.getScreenName());
+			model.addAttribute("role", userDetailsTables.getRole());
+		}
+		return "index";
 	}
 
 	@RequestMapping(value = "/CourseRegistration", method = RequestMethod.GET)

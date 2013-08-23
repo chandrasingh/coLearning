@@ -30,7 +30,7 @@
 					</c:when>
 
 					<c:when test="${role == 'ROLE_AUTHOR'}">
-						<li><a href="#"><spring:message
+						<li><a href="CourseRegistration"><spring:message
 									code="label.create.course" /></a></li>
 						<li><a href="#"><spring:message
 									code="label.my.courses" /></a></li>
@@ -76,9 +76,10 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span6">
-				<spring:message code="label.about.title" />
+				<h2><spring:message code="label.about.title" /></h2>
+				<p><spring:message code="label.about.body" /></p>
 			</div>
-			<div class="span6">1</div>
+			<div class="span6"></div>
 		</div>
 	</div>
 	<script src="<c:url value='resources/js/jquery.min.js' />"></script>

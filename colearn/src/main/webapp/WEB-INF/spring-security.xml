@@ -9,7 +9,8 @@
 		<intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
 		<intercept-url pattern="/author/*" access="ROLE_AUTHOR" />
 		<intercept-url pattern="/student/*" access="ROLE_STUDENT" />
-		<security:openid-login login-page="/login" authentication-failure-handler-ref="OpenIdAuthenticationFalureHandler"
+		<security:openid-login login-page="/login" authentication-success-handler-ref="OpenIdAuthenticationSuccessHandler"
+			authentication-failure-handler-ref="OpenIdAuthenticationFalureHandler"
 			authentication-failure-url="/loginfailed" default-target-url="/index">
 			<attribute-exchange>
 				<openid-attribute name="email"
