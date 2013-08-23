@@ -18,15 +18,15 @@
 	<p class="lead">
 		<c:choose>
 			<c:when test="${role == 'ROLE_STUDENT'}">
-						We could not find your email id in our data base. To allow you further access into our system we need to add it to our data base. Please submit the below form to complete the registration process and be recognized as a student.
+						<spring:message code="label.student.registration.message" />
 					</c:when>
 
 			<c:when test="${role == 'ROLE_AUTHOR'}">
-						We could not find your email id in our data base. To allow you further access into our system we need to add it to our data base. Please submit the below form to complete the registration process and be recognized as an author.
+						<spring:message code="label.author.registration.message" />
 					</c:when>
 
 			<c:when test="${role == 'ROLE_ADMIN'}">
-						We could not find your email id in our data base. To allow you further access into our system we need to add it to our data base. Please submit the below form to complete the registration process and be recognized as an administrator.
+						<spring:message code="label.admin.registration.message" />
 					</c:when>
 			<c:otherwise>
 
@@ -36,14 +36,14 @@
 	<form class="form-horizontal" action="studentRegistrationSubmit"
 		method="post">
 		<div class="control-group">
-			<label class="control-label" for="screenName">Screen Name</label>
+			<label class="control-label" for="screenName"><spring:message code="label.screen.name"/></label>
 			<div class="controls">
 				<input type="text" id="screenName" name="screenName" placeholder="Screen Name">
 				<input type="hidden" id="emailId" name="emailId" value="${email}"> 
 				<input type="hidden" id="role" name="role" value="${role}">
 				<input type="hidden" id="sessionName" name="sessionName" value="${sessionName}">
 			</div>
-			<button type="submit" class="btn">Add Me</button>
+			<button type="submit" class="btn"><spring:message code="label.add.me"/></button>
 		</div>
 	</form>
 	<script src="<c:url value='resources/js/jquery.min.js' />"></script>
