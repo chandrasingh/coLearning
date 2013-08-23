@@ -17,7 +17,7 @@ public class UserCourseDetails {
 	private CourseDetails courseDetails;
 	private UserDetailsTable userDetailsTable;
 	private String data;
-	private Integer bookmark;
+	private String bookmark;
 	private String userCourseMapcol;
 	
 	@Id
@@ -57,10 +57,10 @@ public class UserCourseDetails {
 	}
 	
 	@Column(name = "bookmark", unique = false, nullable = true)	
-	public Integer getBookmark() {
+	public String getBookmark() {
 		return bookmark;
 	}
-	public void setBookmark(Integer bookmark) {
+	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
 	

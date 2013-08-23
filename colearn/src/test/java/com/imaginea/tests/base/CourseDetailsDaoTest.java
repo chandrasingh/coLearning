@@ -46,7 +46,7 @@ public class CourseDetailsDaoTest {
 		courseDetailsServiceImpl.saveCourse(courseDtls);
 		
 		UserCourseDetails usrCrseDtlsEntity = new UserCourseDetails();
-		usrCrseDtlsEntity.setBookmark(10);
+		usrCrseDtlsEntity.setBookmark("Print");
 		usrCrseDtlsEntity.setCourseDetails(courseDtls);
 		usrCrseDtlsEntity.setData(courseDtls.getData());
 		usrCrseDtlsEntity.setUserDetailsTable(empRetrieved);
