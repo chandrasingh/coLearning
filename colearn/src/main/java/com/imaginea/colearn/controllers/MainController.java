@@ -9,13 +9,22 @@ import javax.servlet.http.HttpSession;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,44 +92,31 @@ public class MainController {
 		System.out.println("Into server course Registration page ");
 	}
 	
-	@Transactional
 	@RequestMapping(value = "/courseRegistrationForm", method = RequestMethod.POST)
-	public void courseRegistrationForm(HttpServletRequest request){
+	public String courseRegistrationForm(HttpServletRequest request){
 		System.out.println("Into server course Registration form ");
 		Map<String,String> formParamData = new HashMap<String,String>();
+		FileItem uploadedFileItm = null;
 		if(ServletFileUpload.isMultipartContent(request)){
 			try {
-                List<FileItem> multiparts = new ServletFileUpload(
-                                         new DiskFileItemFactory()).parseRequest(request);                
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);                
                 for(FileItem item : multiparts){
                     if(!item.isFormField()){
                         String name = new File(item.getName()).getName();
-                        item.write( new File(lmsConfigProperties.getProperty("COURSES_UPLOAD_PATH") + File.separator + name));
+                        uploadedFileItm = item;
                     }else{
                     	formParamData.put(item.getFieldName(), item.getString());
                     }
-                    
                 }
-           
                //File uploaded successfully
                request.setAttribute("message", "File Uploaded Successfully");
             } catch (Exception ex) {
                request.setAttribute("message", "File Upload Failed due to " + ex);
             }      
-
-
 		}
-		String strCourseData = formParamData.get("courseData");
-		String strCourseTitle = formParamData.get("courseTitle");
-		String strCourseDescription = formParamData.get("courseDescription");
 		
-		
-		CourseDetails courseDtls = new CourseDetails();
-		courseDtls.setData(strCourseData);
-		courseDtls.setTitle(strCourseTitle);
-		courseDtls.setDescription(strCourseDescription);
-		
-		courseDetailsServiceImpl.saveCourse(courseDtls);
+		courseDetailsServiceImpl.registerCourseFromHTTPReq(formParamData, uploadedFileItm);
+		return "redirect:index";
 	}
 	
 	@RequestMapping(value="/studentRegistrationSubmit", method = RequestMethod.POST)
