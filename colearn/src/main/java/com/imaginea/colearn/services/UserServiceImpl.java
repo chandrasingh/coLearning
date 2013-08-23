@@ -62,11 +62,15 @@ public class UserServiceImpl implements UserService {
 		userDetailsTables = userDetailsDAO.getUserDetail("emailId", email);
 		
 		if (userDetailsTables.size() == 0) {
-			return null;//throw new UsernameNotFoundException("User is not registered with us.");
+			return null;
 		}
 		
 		userDetailsTable = userDetailsTables.get(0);
 		return userDetailsTable;
+	}
+	
+	public void saveUserDetailsTable(UserDetailsTable userDetailsTable){
+		userDetailsDAO.saveUserDetails(userDetailsTable);
 	}
 
 }

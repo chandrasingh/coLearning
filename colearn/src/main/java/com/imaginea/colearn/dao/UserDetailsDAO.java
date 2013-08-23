@@ -11,4 +11,5 @@ public interface UserDetailsDAO {
 	public List<UserDetailsTable> getUserDetail();
 	public void updateUserDetail(UserDetailsTable userDetailsTable);
 	public void deleteUserDetail(UserDetailsTable userDetailsTable);
+	public void saveUserDetails(UserDetailsTable userDetailsTable);
 }

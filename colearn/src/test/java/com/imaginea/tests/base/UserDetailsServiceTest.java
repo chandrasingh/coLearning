@@ -16,6 +16,7 @@ import com.imaginea.colearn.model.UserDetailsTable;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:mvc-dispatcher-servlet.xml" })
+@Ignore
 public class UserDetailsServiceTest {
 	@Autowired
 	UserDetailsDAO userDtlsDao;

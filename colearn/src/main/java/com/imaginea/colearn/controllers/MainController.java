@@ -4,6 +4,7 @@ package com.imaginea.colearn.controllers;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,21 +66,17 @@ public class MainController {
 		return "index";
 	}
 
-//	@RequestMapping(value = "/userRegisterForm", method = RequestMethod.GET)
-//	public String userRegisterForm(HttpServletRequest request, ModelMap model) {
-//		String role = "";
-//		
-//		if(type.equals("student")){
-//			role = "ROLE_STUDENT";
-//		}else if(type.equals("author")){
-//			role = "ROLE_AUTHOR";
-//		}else if(type.equals("admin")){
-//			role = "ROLE_ADMIN";
-//		}
-//		
-//		model.addAttribute("role", role);
-//		return "register";
-//	}
+	@RequestMapping(value = "/studentRegistration", method = RequestMethod.GET)
+	public String userRegisterForm(HttpServletRequest request, ModelMap model) {
+		HttpSession session = request.getSession(false);
+		
+		UserDetailsTable user = (UserDetailsTable)session.getAttribute("user");
+
+		model.addAttribute("email", user.getEmailId());
+		model.addAttribute("sessionName", user.getSessionName());
+		model.addAttribute("role", "ROLE_STUDENT");
+		return "userRegistration";
+	}
 
 	@RequestMapping(value = "/CourseRegistration", method = RequestMethod.GET)
 	public void courseRegistration(ModelMap model){
@@ -121,6 +120,17 @@ public class MainController {
 		courseDtls.setTitle(strCourseTitle);
 		courseDtls.setDescription(strCourseDescription);
 		
-		courseDetailsServiceImpl.saveCourse(courseDtls);		
+		courseDetailsServiceImpl.saveCourse(courseDtls);
+	}
+	
+	@RequestMapping(value="/studentRegistrationSubmit", method = RequestMethod.POST)
+	public String studentRegistrationSubmit(@ModelAttribute("user")UserDetailsTable user){
+		System.out.println("studentRegistrationSubmit user " + user);
+		System.out.println("user.getEmailId" + user.getEmailId());
+		System.out.println("user.getScreenName" + user.getScreenName());
+		System.out.println("user.getSessionName" + user.getSessionName());
+		System.out.println("user.getRole" + user.getRole());
+		userService.saveUserDetailsTable(user);
+		return "redirect:/index";
 	}
 }

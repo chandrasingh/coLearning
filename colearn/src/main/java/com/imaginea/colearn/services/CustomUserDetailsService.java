@@ -54,17 +54,18 @@ AuthenticationUserDetailsService, UserDetailsService {
 		}
 		
 		if (email.equals("")) {
-			//throw new UsernameNotFoundException("Unable to retrieve email id.");
+			throw new UsernameNotFoundException("Unable to retrieve email id.");
 		}
 		
 		userDetailsTable = userService.getUserDetailsFromEmail(email);
 		
 		if(userDetailsTable == null){
-			authorities.add(new GrantedAuthorityImpl("ROLE_ANONYMOUS"));
-			
-			user = new User(identifier, "", authorities);
-			
-			return user;
+			throw new UsernameNotFoundException("User not registered with us!");
+//			authorities.add(new GrantedAuthorityImpl("ROLE_ANONYMOUS"));
+//			
+//			user = new User(identifier, "", authorities);
+//			
+//			return user;
 		}
 
 		userDetailsTable.setSessionName(identifier);

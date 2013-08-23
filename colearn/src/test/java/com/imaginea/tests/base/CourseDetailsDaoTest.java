@@ -19,6 +19,7 @@ import com.imaginea.colearn.services.UserCourseDetailsService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mvc-dispatcher-servlet.xml"})
+@Ignore
 
 public class CourseDetailsDaoTest {
 	@Autowired

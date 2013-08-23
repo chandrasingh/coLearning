@@ -15,4 +15,5 @@ public interface UserService {
 	void updateUserDetail(UserDetailsTable userDetailsTable);
 	UserDetailsTable getUserDetail(Principal sessionName);
 	UserDetailsTable getUserDetailsFromEmail(String email);
+	void saveUserDetailsTable(UserDetailsTable userDetailsTable);
 }

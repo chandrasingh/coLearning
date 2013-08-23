@@ -25,14 +25,14 @@
 							code="label.home" /></a></li>
 				<c:choose>
 					<c:when test="${role == 'ROLE_STUDENT'}">
-						<li><a class="brand" href="#"><spring:message
-									code="label.my.cources" /></a></li>
+						<li><a href="#"><spring:message
+									code="label.my.courses" /></a></li>
 					</c:when>
 
 					<c:when test="${role == 'ROLE_AUTHOR'}">
-						<li><a class="brand" href="#"><spring:message
+						<li><a href="#"><spring:message
 									code="label.create.course" /></a></li>
-						<li><a class="brand" href="#"><spring:message
+						<li><a href="#"><spring:message
 									code="label.my.courses" /></a></li>
 					</c:when>
 
@@ -44,7 +44,7 @@
 					</c:otherwise>
 				</c:choose>
 			</ul>
-			<div>
+			<div class="nav pull-right">
 				<c:choose>
 					<c:when test="${empty role}">
 						<a class="brand" href="<c:url value='login' />"><spring:message
@@ -53,8 +53,7 @@
 								code="label.register" /></a>
 					</c:when>
 					<c:otherwise>
-						<a class="brand" href="<c:url value='logout' />"><spring:message
-								code="label.logout" /></a>
+						
 					</c:otherwise>
 				</c:choose>
 			</div>

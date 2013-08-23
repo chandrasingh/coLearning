@@ -39,4 +39,8 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 		sessionFactory.getCurrentSession().delete(userDetailsTable);		
 	}
 
+	public void saveUserDetails(UserDetailsTable userDetailsTable) {
+		sessionFactory.getCurrentSession().save(userDetailsTable);
+	}
+
 }

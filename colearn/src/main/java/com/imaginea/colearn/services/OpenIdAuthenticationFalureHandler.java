@@ -27,31 +27,34 @@ public class OpenIdAuthenticationFalureHandler extends
 	public void onAuthenticationFailure(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException exception)
 			throws IOException, ServletException {
+		System.out.println("onAuthenticationFailure");
 		if (openIdAuthenticationSuccesfullButUserIsNotRegistered(exception)) {
 			redirectToOpenIdRegistrationUrl(request, response, exception);
 		} else {
 			super.onAuthenticationFailure(request, response, exception);
 		}
-		super.onAuthenticationFailure(request, response, exception);
+		//super.onAuthenticationFailure(request, response, exception);
 	}
 	
 	private void redirectToOpenIdRegistrationUrl(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
         addOpenIdAttributesToSession(request, getOpenIdAuthenticationToken(exception));
-        redirectStrategy.sendRedirect(request, response, "/stuendtRegistration");
+        redirectStrategy.sendRedirect(request, response, "/studentRegistration");
     }
 	
 	private void addOpenIdAttributesToSession(HttpServletRequest request, OpenIDAuthenticationToken openIdAuthenticationToken) throws ServletException {
 		List<OpenIDAttribute> attributes = openIdAuthenticationToken.getAttributes();
 		HttpSession session = request.getSession(false);
 		UserDetailsTable user = new UserDetailsTable();
+
+		user.setSessionName(openIdAuthenticationToken.getIdentityUrl());
 		
 		for (OpenIDAttribute attribute : attributes) {
 			if (attribute.getName().equals("email")) {
 				user.setEmailId(attribute.getValues().get(0));
-				session.setAttribute("user", user);
 			}
 		}
+		session.setAttribute("user", user);
     }
 
 	private boolean openIdAuthenticationSuccesfullButUserIsNotRegistered(AuthenticationException exception) {
