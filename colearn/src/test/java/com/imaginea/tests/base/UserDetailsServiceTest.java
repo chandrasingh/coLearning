@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.imaginea.colearn.controllers.LMSConfigProperties;
 import com.imaginea.colearn.dao.UserDetailsDAO;
 
 import com.imaginea.colearn.model.UserDetailsTable;
@@ -22,6 +24,9 @@ public class UserDetailsServiceTest {
 	UserDetailsTable emp, empRetrieved, empUpdated;
 	List usrList;
 	Integer empID;
+	
+	@Autowired
+	LMSConfigProperties lmsConfigProperties;
 
 	@Ignore
 	@Transactional
@@ -36,6 +41,8 @@ public class UserDetailsServiceTest {
 		 System.out.println("Object id is"+empRetrieved.getUserOid());
 		 Assert.assertEquals("chandings@gmail.com",
 		 empRetrieved.getEmailId());
+		 
+		 lmsConfigProperties.get("COURSES_UPLOAD_PATH");
 		 Assert.assertEquals((Long)1l, empRetrieved.getUserOid());
 	}
 
