@@ -9,36 +9,25 @@ import javax.servlet.http.HttpSession;
 
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.imaginea.colearn.model.UserDetailsTable;
-import com.imaginea.colearn.services.UserService;
 
 import com.imaginea.colearn.model.CourseDetails;
+import com.imaginea.colearn.model.UserCourseDetails;
+import com.imaginea.colearn.model.UserDetailsTable;
+import com.imaginea.colearn.services.UserCourseDetailsService;
+import com.imaginea.colearn.services.UserService;
+
 import com.imaginea.colearn.services.CourseDetailsService;
 
 @Controller
@@ -51,6 +40,8 @@ public class MainController {
 	CourseDetailsService courseDetailsServiceImpl;
 	@Autowired
 	LMSConfigProperties lmsConfigProperties;
+	@Autowired
+	UserCourseDetailsService userCourseDtlsServiceImpl;
 	
 	@RequestMapping(value = "/checkLogin", method = RequestMethod.GET)
 	public String checkLogin(ModelMap model, Principal principal){
@@ -110,15 +101,14 @@ public class MainController {
                     	formParamData.put(item.getFieldName(), item.getString());
                     }
                 }
+                courseDetailsServiceImpl.registerCourseFromHTTPReq(formParamData, uploadedFileItm);
                //File uploaded successfully
                request.setAttribute("message", "File Uploaded Successfully");
             } catch (Exception ex) {
                request.setAttribute("message", "File Upload Failed due to " + ex);
             }      
-		}
-		
-		courseDetailsServiceImpl.registerCourseFromHTTPReq(formParamData, uploadedFileItm);
-		return "redirect:index";
+		}		
+		return "redirect:/index";
 	}
 	
 	@RequestMapping(value="/studentRegistrationSubmit", method = RequestMethod.POST)
@@ -131,4 +121,21 @@ public class MainController {
 		userService.saveUserDetailsTable(user);
 		return "redirect:/index";
 	}
+	
+	@RequestMapping(value="/registerUserToCourse", method = RequestMethod.GET)
+	public void userRegistrationToCourse(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		
+		UserDetailsTable user = (UserDetailsTable)session.getAttribute("user");
+		CourseDetails courseDtls = new CourseDetails();
+		courseDtls.setCourseOid(new Long(request.getParameter("CourseOid")).longValue());
+		UserCourseDetails usrCourseDtls = new UserCourseDetails();
+		usrCourseDtls.setData(request.getParameter("courseDataToSave"));
+		usrCourseDtls.setBookmark(request.getParameter("courseBookmark"));	
+		usrCourseDtls.setUserDetailsTable(user);
+		usrCourseDtls.setCourseDetails(courseDtls);
+		userCourseDtlsServiceImpl.saveCourse(usrCourseDtls);
+	}
+	
+	
 }
