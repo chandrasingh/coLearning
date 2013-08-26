@@ -50,7 +50,12 @@ public class MainController {
 		return null;
 	}
 
-	
+	@RequestMapping(value = "/*", method = RequestMethod.GET)
+	public String sample(){
+		System.out.println("Sample webpage enter");
+		return null;
+	}
+
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap model, Principal principal) {
@@ -124,6 +129,7 @@ public class MainController {
 	
 	@RequestMapping(value="/registerUserToCourse", method = RequestMethod.GET)
 	public void userRegistrationToCourse(HttpServletRequest request){
+		System.out.println("Entered into register UserToCourse");
 		HttpSession session = request.getSession(false);
 		
 		UserDetailsTable user = (UserDetailsTable)session.getAttribute("user");

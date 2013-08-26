@@ -18,7 +18,7 @@
 			<div class="nav pull-right">
 				<div class="dropdown">
 					<button class="btn dropdown-toggle" data-toggle="dropdown">
-						Action <span class="caret"></span>
+						Action <span class="caret"><s/span>
 					</button>
 					<ul class="dropdown-menu">
 						<li><a href="?lang=en"><spring:message

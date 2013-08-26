@@ -25,11 +25,25 @@ public class DAOInterfaceImpl<T, P extends Serializable> implements DAOInteface<
 	}
 
 	public T getOnPk(P id) {
-		return (T) hibernateTempl.load(entityName, id);
+		return (T) hibernateTempl.load(entityName, id);		
 	}
 
+	public T getOnMultipleParams(List<String> lsQueryParamName, List<Long> lsQueryValues){
+		StringBuilder strQuery = new StringBuilder("from "+entityName+" entity where ");
+		for(int k=0; k < lsQueryParamName.size(); k++){
+			strQuery.append(" entity."+lsQueryParamName.get(k)+" = " +lsQueryValues.get(k)+" and ");
+		}
+		strQuery.delete(strQuery.length()-5, strQuery.length());
+		List<T> lsResObj = hibernateTempl.find(strQuery.toString());
+		if(lsResObj == null || lsResObj.isEmpty() || lsResObj.size()>1){
+			return null;
+		}else
+			return (T) hibernateTempl.find(strQuery.toString()).get(0);		
+	}
+	
 	public List<T> getAsLsOnPk(String queryParamName, Object queryParamVal) {
 		return hibernateTempl.find("from "+entityName+" entity where entity." + queryParamName + " = '" +queryParamVal+ "'");
+		
 	}
 
 	public List<T> getAllAsLs() {

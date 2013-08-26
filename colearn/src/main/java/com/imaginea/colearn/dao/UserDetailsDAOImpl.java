@@ -24,7 +24,7 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 	}
 	
 	public List<UserDetailsTable> getUserDetail(String parameter, String value) {
-		return sessionFactory.getCurrentSession().createQuery("from UserDetailsTable ud where ud." + parameter + " = '" +value+ "'").list();
+		return sessionFactory.getCurrentSession().createQuery(" from UserDetailsTable ud where ud." + parameter + " = '" +value+ "'").list();
 	}
 	
 	public List<UserDetailsTable> getUserDetail() {

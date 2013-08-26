@@ -11,5 +11,6 @@ public interface DAOInteface<T extends Object,P extends Serializable> {
 	public List<T> getAllAsLs();
 	public void update(T inputEntity);
 	public void delete(T inputEntity);
+	public T getOnMultipleParams(List<String> lsQueryParamName, List<Long> lsQueryValues);
 	
 }
