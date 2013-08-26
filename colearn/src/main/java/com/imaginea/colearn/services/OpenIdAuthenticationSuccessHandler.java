@@ -3,6 +3,7 @@ package com.imaginea.colearn.services;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
+import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,8 @@ public class OpenIdAuthenticationSuccessHandler extends
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication)
-			throws IOException {
+			throws IOException, ServletException {
+		DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 		OpenIDAuthenticationToken openIdAuthenticationToken = (OpenIDAuthenticationToken) authentication;
 		List<OpenIDAttribute> attributes = openIdAuthenticationToken.getAttributes();
 		HttpSession session = request.getSession(false);
@@ -40,8 +43,10 @@ public class OpenIdAuthenticationSuccessHandler extends
 				user = userService.getUserDetailsFromEmail(email);
 			}
 		}
-		
+		System.out.println("getPathInfo " + request.getPathInfo());
+		System.out.println("getPathInfo " + request.getPathTranslated());
 		
 		session.setAttribute("user", user);
+        redirectStrategy.sendRedirect(request, response, "/index");
 	}
 }
