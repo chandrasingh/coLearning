@@ -14,7 +14,7 @@
 	<mvc:annotation-driven />
 
 	<context:component-scan
-		base-package="com.imaginea.colearn.model, com.imaginea.colearn.controllers, com.imaginea.colearn.dao, com.imaginea.colearn.services" />
+		base-package="com.imaginea.colearn.model, com.imaginea.colearn.controllers, com.imaginea.colearn.dao, com.imaginea.colearn.services, com.imaginea.colearn.properties" />
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
@@ -90,5 +90,4 @@
 			<property name="paramName" value="lang" />
 		</bean>
 	</mvc:interceptors>
-	<bean id="lmsConfigProperties" class="com.imaginea.colearn.controllers.LMSConfigProperties"/>
 </beans>

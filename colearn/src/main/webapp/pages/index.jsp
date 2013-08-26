@@ -10,13 +10,11 @@
 <link href="<c:url value='/resources/css/bootstrap-responsive.css' />"
 	rel="stylesheet" />
 <script type='text/javascript'>
-	function init() {
-		alert(${role});
-	}
+	
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body onload="init()">
+<body>
 	<div class="navbar">
 		<div class="navbar-inner">
 			<a class="brand" href="#"><spring:message code="label.title" /></a>
@@ -25,15 +23,13 @@
 							code="label.home" /></a></li>
 				<c:choose>
 					<c:when test="${role == 'ROLE_STUDENT'}">
-						<li><a href="#"><spring:message
-									code="label.my.courses" /></a></li>
+						<li><a href="#"><spring:message code="label.my.courses" /></a></li>
 					</c:when>
 
 					<c:when test="${role == 'ROLE_AUTHOR'}">
 						<li><a href="CourseRegistration"><spring:message
 									code="label.create.course" /></a></li>
-						<li><a href="#"><spring:message
-									code="label.my.courses" /></a></li>
+						<li><a href="#"><spring:message code="label.my.courses" /></a></li>
 					</c:when>
 
 					<c:when test="${role == 'ROLE_ADMIN'}">
@@ -49,11 +45,9 @@
 					<c:when test="${empty role}">
 						<a class="brand" href="<c:url value='login' />"><spring:message
 								code="label.login" /></a>
-						<a class="brand" href="<c:url value='studentRegisterForm' />"><spring:message
-								code="label.register" /></a>
 					</c:when>
 					<c:otherwise>
-						
+
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -76,10 +70,52 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span6">
-				<h2><spring:message code="label.about.title" /></h2>
-				<p><spring:message code="label.about.body" /></p>
+				<h2>
+					<spring:message code="label.about.title" />
+				</h2>
+				<p>
+					<spring:message code="label.about.body" />
+				</p>
 			</div>
-			<div class="span6"></div>
+			<div class="span6">
+				<h2>
+					<spring:message code="label.courses" />
+				</h2>
+				<c:choose>
+					<c:when test="${empty courseList}">
+						<p class="lead">
+							<spring:message code="label.login" />
+						</p>
+					</c:when>
+					<c:otherwise>
+						<div class="accordion" id="accordion2">
+							<c:set var="count" value="${0}" />
+							<c:forEach items="${courseList}" var="course">
+								<div class="accordion-group">
+									<div class="accordion-heading">
+										<a class="accordion-toggle" data-toggle="collapse"
+											data-parent="#accordion2" href="#collapse${count}">
+											${course.getTitle()}</a>
+									</div>
+									<div id="collapse${count}" class="accordion-body collapse">
+										<div class="accordion-inner">
+											<div class="row">
+												<div class="span3 offset1">Description</div>
+												<div class="span8">${course.getDescription()}</div>
+											</div>
+											<div class="row">
+												<div class="span3 offset1">Created On</div>
+												<div class="span8">${course.getCreateTs()}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<c:set var="count" value="${count+1}"/>
+							</c:forEach>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</div>
 		</div>
 	</div>
 	<script src="<c:url value='resources/js/jquery.min.js' />"></script>

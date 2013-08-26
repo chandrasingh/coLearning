@@ -15,7 +15,9 @@ import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.omg.CORBA.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.imaginea.colearn.model.CourseDetails;
 import com.imaginea.colearn.model.UserCourseDetails;
 import com.imaginea.colearn.model.UserDetailsTable;
+import com.imaginea.colearn.properties.LMSConfigProperties;
 import com.imaginea.colearn.services.UserCourseDetailsService;
 import com.imaginea.colearn.services.UserService;
 
@@ -50,39 +53,39 @@ public class MainController {
 		return null;
 	}
 
-	@RequestMapping(value = "/*", method = RequestMethod.GET)
-	public String sample(){
-		System.out.println("Sample webpage enter");
-		return null;
-	}
-
-	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(ModelMap model, Principal principal) {
+	public String index(ModelMap model, HttpServletRequest request) {
 		System.out.println("index");
+		System.out.println("request " + request);
 		UserDetailsTable userDetailsTables;
-		
-		userDetailsTables = userService.getUserDetail(principal);
+		List<CourseDetails> courseList = courseDetailsServiceImpl.getAllCourseDetails();
+		try{
+			userDetailsTables = (UserDetailsTable)request.getSession(false).getAttribute("user");
+		}
+		catch(NullPointerException exception){
+			userDetailsTables = null;
+		}
 		
 		if(userDetailsTables != null){
 			model.addAttribute("screenName", userDetailsTables.getScreenName());
 			model.addAttribute("role", userDetailsTables.getRole());
 		}
+		model.addAttribute("courseList", courseList);
 		return "index";
 	}
 	
-	@RequestMapping(value = "/student/index", method = RequestMethod.GET)
-	public String stdIindex(ModelMap model, Principal principal) {
-		System.out.println("index");
-		UserDetailsTable userDetailsTables;
+	@RequestMapping(value = "/studentRegistration", method = RequestMethod.GET)
+	public String studentRegistration(ModelMap model, HttpServletRequest request ) {
+		UserDetailsTable user = (UserDetailsTable)request.getSession().getAttribute("user");
 		
-		userDetailsTables = userService.getUserDetail(principal);
-		
-		if(userDetailsTables != null){
-			model.addAttribute("screenName", userDetailsTables.getScreenName());
-			model.addAttribute("role", userDetailsTables.getRole());
+		if(user != null){
+			model.addAttribute("email", user.getEmailId());
+			model.addAttribute("userRole", "ROLE_STUDENT");
+			model.addAttribute("sessionName", user.getSessionName());
+			model.addAttribute("role", "");
 		}
-		return "index";
+		
+		return "userRegistration";
 	}
 
 	@RequestMapping(value = "/CourseRegistration", method = RequestMethod.GET)
@@ -117,13 +120,16 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/studentRegistrationSubmit", method = RequestMethod.POST)
-	public String studentRegistrationSubmit(@ModelAttribute("user")UserDetailsTable user){
+	public String studentRegistrationSubmit(@ModelAttribute("user")UserDetailsTable user, HttpServletRequest request){
 		System.out.println("studentRegistrationSubmit user " + user);
 		System.out.println("user.getEmailId" + user.getEmailId());
 		System.out.println("user.getScreenName" + user.getScreenName());
 		System.out.println("user.getSessionName" + user.getSessionName());
 		System.out.println("user.getRole" + user.getRole());
+		UserDetailsTable userDetails;
 		userService.saveUserDetailsTable(user);
+		userDetails = userService.getUserDetailsFromEmail(user.getEmailId());
+		request.getSession(false).setAttribute("user", userDetails);
 		return "redirect:/index";
 	}
 	
@@ -142,6 +148,5 @@ public class MainController {
 		usrCourseDtls.setCourseDetails(courseDtls);
 		userCourseDtlsServiceImpl.saveCourse(usrCourseDtls);
 	}
-	
-	
+
 }
