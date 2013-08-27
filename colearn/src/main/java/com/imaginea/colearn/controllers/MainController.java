@@ -55,8 +55,6 @@ public class MainController {
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap model, HttpServletRequest request) {
-		System.out.println("index");
-		System.out.println("request " + request);
 		UserDetailsTable userDetailsTables;
 		List<CourseDetails> courseList = courseDetailsServiceImpl.getAllCourseDetails();
 		try{
@@ -88,16 +86,28 @@ public class MainController {
 		return "userRegistration";
 	}
 
-	@RequestMapping(value = "/CourseRegistration", method = RequestMethod.GET)
-	public void courseRegistration(ModelMap model){
-		System.out.println("Into server course Registration page ");
+	@RequestMapping(value = "/author/CourseRegistration", method = RequestMethod.GET)
+	public String courseRegistration(ModelMap model){
+		return "CourseRegistration";
 	}
 	
-	@RequestMapping(value = "/courseRegistrationForm", method = RequestMethod.POST)
-	public String courseRegistrationForm(HttpServletRequest request){
-		System.out.println("Into server course Registration form ");
+	@RequestMapping(value = "/author/courseRegistrationForm", method = RequestMethod.POST)
+	public String courseRegistrationForm(ModelMap model, HttpServletRequest request){
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>Entered intot Course Registration");
+		try{
 		Map<String,String> formParamData = new HashMap<String,String>();
 		FileItem uploadedFileItm = null;
+		
+		UserDetailsTable userDetailsTables;
+		
+		try{
+			userDetailsTables = (UserDetailsTable)request.getSession(false).getAttribute("user");
+		}
+		catch(NullPointerException exception){
+			userDetailsTables = null;
+			exception.printStackTrace();
+		}
+		
 		if(ServletFileUpload.isMultipartContent(request)){
 			try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);                
@@ -105,8 +115,10 @@ public class MainController {
                     if(!item.isFormField()){
                         String name = new File(item.getName()).getName();
                         uploadedFileItm = item;
+                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>name " + name);
                     }else{
                     	formParamData.put(item.getFieldName(), item.getString());
+                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>item.getString() " + item.getString());
                     }
                 }
                 courseDetailsServiceImpl.registerCourseFromHTTPReq(formParamData, uploadedFileItm);
@@ -114,18 +126,21 @@ public class MainController {
                request.setAttribute("message", "File Uploaded Successfully");
             } catch (Exception ex) {
                request.setAttribute("message", "File Upload Failed due to " + ex);
+               ex.printStackTrace();
             }      
-		}		
+		}	
+		
+		if(userDetailsTables != null){
+			model.addAttribute("role", userDetailsTables.getRole());
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return "redirect:/index";
 	}
 	
 	@RequestMapping(value="/studentRegistrationSubmit", method = RequestMethod.POST)
 	public String studentRegistrationSubmit(@ModelAttribute("user")UserDetailsTable user, HttpServletRequest request){
-		System.out.println("studentRegistrationSubmit user " + user);
-		System.out.println("user.getEmailId" + user.getEmailId());
-		System.out.println("user.getScreenName" + user.getScreenName());
-		System.out.println("user.getSessionName" + user.getSessionName());
-		System.out.println("user.getRole" + user.getRole());
 		UserDetailsTable userDetails;
 		userService.saveUserDetailsTable(user);
 		userDetails = userService.getUserDetailsFromEmail(user.getEmailId());
@@ -135,7 +150,6 @@ public class MainController {
 	
 	@RequestMapping(value="/registerUserToCourse", method = RequestMethod.GET)
 	public void userRegistrationToCourse(HttpServletRequest request){
-		System.out.println("Entered into register UserToCourse");
 		HttpSession session = request.getSession(false);
 		
 		UserDetailsTable user = (UserDetailsTable)session.getAttribute("user");

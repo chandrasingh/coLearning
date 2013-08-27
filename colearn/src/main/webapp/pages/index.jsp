@@ -9,6 +9,7 @@
 	rel="stylesheet" />
 <link href="<c:url value='/resources/css/bootstrap-responsive.css' />"
 	rel="stylesheet" />
+
 <script type='text/javascript'>
 	
 </script>
@@ -27,7 +28,7 @@
 					</c:when>
 
 					<c:when test="${role == 'ROLE_AUTHOR'}">
-						<li><a href="CourseRegistration"><spring:message
+						<li><a href="author/CourseRegistration"><spring:message
 									code="label.create.course" /></a></li>
 						<li><a href="#"><spring:message code="label.my.courses" /></a></li>
 					</c:when>
@@ -70,12 +71,14 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span6">
-				<h2>
-					<spring:message code="label.about.title" />
-				</h2>
-				<p>
-					<spring:message code="label.about.body" />
-				</p>
+				<div class="hero-unit">
+					<h2>
+						<spring:message code="label.about.title" />
+					</h2>
+					<p>
+						<spring:message code="label.about.body" />
+					</p>
+				</div>
 			</div>
 			<div class="span6">
 				<h2>
@@ -84,7 +87,7 @@
 				<c:choose>
 					<c:when test="${empty courseList}">
 						<p class="lead">
-							<spring:message code="label.login" />
+							<spring:message code="label.noCourseFoundMessage" />
 						</p>
 					</c:when>
 					<c:otherwise>
@@ -107,10 +110,17 @@
 												<div class="span3 offset1">Created On</div>
 												<div class="span8">${course.getCreateTs()}</div>
 											</div>
+											<div class="row">
+												<div class="span11 offset1">
+													<a
+														href="resources/${course.getCourseOid()}/Toc.jsp?registeredCourseOid=${course.getCourseOid()}"
+														target="_blank" class="text-center"><b>Content</b></a>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-								<c:set var="count" value="${count+1}"/>
+								<c:set var="count" value="${count+1}" />
 							</c:forEach>
 						</div>
 					</c:otherwise>
