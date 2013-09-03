@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.imaginea.colearn.controllers.LMSConfigProperties;
 import com.imaginea.colearn.dao.DAOInteface;
 import com.imaginea.colearn.model.CourseDetails;
+import com.imaginea.colearn.properties.LMSConfigProperties;
 
 @Service
 public class CourseDetailsServiceImpl implements CourseDetailsService{

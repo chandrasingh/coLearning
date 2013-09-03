@@ -1,10 +1,13 @@
-package com.imaginea.colearn.controllers;
+package com.imaginea.colearn.properties;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.springframework.stereotype.Repository;
+
+@Repository("lmsConfigProperties")
 public class LMSConfigProperties extends Properties{
 	
 	public LMSConfigProperties() {

@@ -11,10 +11,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.imaginea.colearn.controllers.LMSConfigProperties;
 import com.imaginea.colearn.dao.UserDetailsDAO;
 
 import com.imaginea.colearn.model.UserDetailsTable;
+import com.imaginea.colearn.properties.LMSConfigProperties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:mvc-dispatcher-servlet.xml" })
